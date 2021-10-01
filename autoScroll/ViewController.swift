@@ -38,7 +38,12 @@ class ViewController: UIViewController {
          self.scrollView.isPagingEnabled = true
          // 水平方向のスクロールインジケータを非表示にする
          self.scrollView.showsHorizontalScrollIndicator = false
-         self.view.addSubview(self.scrollView)
+         scrollView.translatesAutoresizingMaskIntoConstraints = false
+         view.addSubview(scrollView)
+         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
          
          // scrollView上にUIImageViewを配置
          self.setUpImageView()
@@ -51,8 +56,12 @@ class ViewController: UIViewController {
          self.pageControl.pageIndicatorTintColor = UIColor.lightGray
          // pageControlの現在のページのドットの色
          self.pageControl.currentPageIndicatorTintColor = UIColor.black
+         pageControl.translatesAutoresizingMaskIntoConstraints = false
          self.view.addSubview(self.pageControl)
-         
+         pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+          pageControl.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -35).isActive = true
+          pageControl.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 3/4).isActive = true
+         pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
          // タイマーを作成
          self.timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.scrollPage), userInfo: nil, repeats: true)
      }
@@ -79,7 +88,14 @@ class ViewController: UIViewController {
              let photoItem = self.photoList[i]
              let imageView = createImageView(x: 0, y: 0, width: self.view.frame.size.width, height: self.scrollView.frame.size.height, image: photoItem)
              imageView.frame = CGRect(origin: CGPoint(x: self.view.frame.size.width * CGFloat(i), y: 0), size: CGSize(width: self.view.frame.size.width, height: self.scrollView.frame.size.height))
+             imageView.translatesAutoresizingMaskIntoConstraints = false
              self.scrollView.addSubview(imageView)
+             
+             imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor,constant: view.frame.size.width * CGFloat(i)).isActive = true
+             imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true
+             imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+             imageView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+             imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
          }
      }
      
