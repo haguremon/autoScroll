@@ -49,9 +49,14 @@ class ViewController: UIViewController {
         button.titleLabel?.text = "戻る"
         button.setTitle("戻る", for: UIControl.State.normal)
         button.tintColor = .white
+        //button.target(forAction: #selector(test), withSender: nil)
+        button.addTarget(self, action: #selector(test), for: .touchUpInside)
         return button
     }()
-     
+    @objc func test() {
+        
+        print("tap")
+    }
      private var offsetX: CGFloat = 0
      private var timer: Timer!
      
@@ -80,7 +85,7 @@ class ViewController: UIViewController {
         frameGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
        frameGuide.topAnchor.constraint(equalTo:  pageControl.bottomAnchor, constant: -5).isActive = true
       frameGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-         frameGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -150).isActive = true
+        frameGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -150).isActive = true
 
          
          
@@ -103,7 +108,7 @@ class ViewController: UIViewController {
          view.addSubview(button)
          
          button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-         button.anchor(top: scrollView.bottomAnchor, leading: scrollView.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: scrollView.trailingAnchor, padding: .init(top: 5, left:30 , bottom: 100, right: 30))
+         button.anchor(top: scrollView.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 5, left:0 , bottom: 0, right: 0),size: .init(width: 200, height: 50))
          //pageControl.heightAnchor.constraint(equalTo: view.heightAnchor,constant: -1).isActive = true
          // pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
          // タイマーを作成
