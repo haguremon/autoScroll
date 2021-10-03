@@ -19,49 +19,93 @@ class ViewController: UIViewController {
          Photo(imageName: "clock")
      ]
      
-     private var scrollView: UIScrollView!
-     private var pageControl: UIPageControl!
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        // メニュー単位のスクロールを可能にする
+       
+        // 水平方向のスクロールインジケータを非表示にする
+       // scrollView.showsHorizontalScrollIndicator = false
+       
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+   
+    private var pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+         pageControl.numberOfPages = 3
+         // pageControlのドットの色
+         pageControl.pageIndicatorTintColor = UIColor.lightGray
+         // pageControlの現在のページのドットの色
+         pageControl.backgroundColor = .green
+         pageControl.currentPageIndicatorTintColor = UIColor.black
+        return pageControl
+    }()
+    private var button: UIButton = {
+        
+        let button = UIButton()
+        button.backgroundColor = .orange
+        button.titleLabel?.text = "戻る"
+        button.setTitle("戻る", for: UIControl.State.normal)
+        button.tintColor = .white
+        return button
+    }()
      
      private var offsetX: CGFloat = 0
      private var timer: Timer!
      
      override func viewDidLoad() {
          super.viewDidLoad()
+      let frameGuide = scrollView.frameLayoutGuide
+  
+//
          
          // scrollViewの画面表示サイズを指定
-         self.scrollView = UIScrollView(frame: CGRect(x: 0, y: 200, width: self.view.frame.size.width, height: 200))
+//         scrollView = UIScrollView(frame: CGRect(x: 0, y: 200, width: view.frame.size.width, height: view.frame.size.height ))
          // scrollViewのサイズを指定（幅は1メニューに表示するViewの幅×ページ数）
-         self.scrollView.contentSize = CGSize(width: self.view.frame.size.width * 3, height: 200)
+        
          // scrollViewのデリゲートになる
-         self.scrollView.delegate = self
-         // メニュー単位のスクロールを可能にする
-         self.scrollView.isPagingEnabled = true
-         // 水平方向のスクロールインジケータを非表示にする
-         self.scrollView.showsHorizontalScrollIndicator = false
-         scrollView.translatesAutoresizingMaskIntoConstraints = false
-         view.addSubview(scrollView)
-         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+         scrollView.delegate = self
+         scrollView.backgroundColor = .green
          
+         view.addSubview(scrollView)
+        
+         //pageControl.frame = CGRect(x: 0, y: 370, width: view.frame.size.width, height: 30)
+       
+        // pageControl.translatesAutoresizingMaskIntoConstraints = false
+         
+         view.addSubview(pageControl)
+        
+        frameGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+       frameGuide.topAnchor.constraint(equalTo:  pageControl.bottomAnchor, constant: -5).isActive = true
+      frameGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+         frameGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -150).isActive = true
+
+         
+         
+//         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        scrollView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+//       scrollView.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: -10).isActive = true
+////
+//         scrollView.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor).isActive = true
+//         scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20).isActive = true
+//////         scrollView.topAnchor.constraint(equalTo: pageControl.bottomAnchor,constant: -600).isActive = true
+//        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -150).isActive = true
+////
          // scrollView上にUIImageViewを配置
-         self.setUpImageView()
+         setUpImageView()
          
          // pageControlの表示位置とサイズの設定
-         self.pageControl = UIPageControl(frame: CGRect(x: 0, y: 370, width: self.view.frame.size.width, height: 30))
          // pageControlのページ数を設定
-         self.pageControl.numberOfPages = 3
-         // pageControlのドットの色
-         self.pageControl.pageIndicatorTintColor = UIColor.lightGray
-         // pageControlの現在のページのドットの色
-         self.pageControl.currentPageIndicatorTintColor = UIColor.black
-         pageControl.translatesAutoresizingMaskIntoConstraints = false
-         self.view.addSubview(self.pageControl)
+         pageControl.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 2, left: 0, bottom: 0, right: 0),size: .init(width: view.frame.size.width, height: 20))
          pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-          pageControl.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -35).isActive = true
-          pageControl.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 3/4).isActive = true
-         pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+         view.addSubview(button)
+         
+         button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+         button.anchor(top: scrollView.bottomAnchor, leading: scrollView.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: scrollView.trailingAnchor, padding: .init(top: 5, left:30 , bottom: 100, right: 30))
+         //pageControl.heightAnchor.constraint(equalTo: view.heightAnchor,constant: -1).isActive = true
+         // pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
          // タイマーを作成
          self.timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.scrollPage), userInfo: nil, repeats: true)
      }
@@ -73,7 +117,17 @@ class ViewController: UIViewController {
              workingTimer.invalidate()
          }
      }
-     
+    override func viewDidLayoutSubviews() {
+     super.viewDidLayoutSubviews()
+       scrollView.isPagingEnabled = true
+        //scrollView.isScrollEnabled = true
+        //scrollView.isScrollEnabled = true
+        //scrollView.alwaysBounceVertical = true
+        scrollView.alwaysBounceHorizontal = true
+        scrollView.contentSize = CGSize(width: view.frame.size.width * 3, height: view.frame.size.height / 2)
+
+    }
+
      // UIImageViewを生成
      func createImageView(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, image: Photo) -> UIImageView {
          let imageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
@@ -86,20 +140,40 @@ class ViewController: UIViewController {
      func setUpImageView() {
          for i in 0 ..< self.photoList.count {
              let photoItem = self.photoList[i]
-             let imageView = createImageView(x: 0, y: 0, width: self.view.frame.size.width, height: self.scrollView.frame.size.height, image: photoItem)
-             imageView.frame = CGRect(origin: CGPoint(x: self.view.frame.size.width * CGFloat(i), y: 0), size: CGSize(width: self.view.frame.size.width, height: self.scrollView.frame.size.height))
-             imageView.translatesAutoresizingMaskIntoConstraints = false
-             self.scrollView.addSubview(imageView)
+             let imageView = createImageView(x: 0, y: 0, width: self.scrollView.frame.size.width, height: self.scrollView.frame.size.height , image: photoItem)
+             imageView.frame = CGRect(origin: CGPoint(x: self.scrollView.frame.size.width * 3, y: 0), size: CGSize(width: self.scrollView.frame.size.width - 100, height: view.frame.size.height / 2 - 50))
              
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+             imageView.backgroundColor = .gray
+             
+             scrollView.addSubview(imageView)
+//             let contentGuide = scrollView.contentLayoutGuide
              imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor,constant: view.frame.size.width * CGFloat(i)).isActive = true
-             imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true
-             imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-             imageView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-             imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+            imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor).isActive = true
+
+//             contentGuide.leadingAnchor.constraint(equalTo: imageView.leadingAnchor).isActive = true
+//              contentGuide.topAnchor.constraint(equalTo: imageView.topAnchor).isActive = true
+//              contentGuide.trailingAnchor.constraint(equalTo: imageView.trailingAnchor).isActive = true
+//              contentGuide.bottomAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
+//             contentGuide.widthAnchor.constraint(equalTo: imageView.widthAnchor).isActive = true
+
+             imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor,constant:  -20).isActive = true
+             imageView.heightAnchor.constraint(equalTo: scrollView.heightAnchor,constant: -20).isActive = true
+//
+//             imageView.topAnchor.constraint(equalTo:scrollView.topAnchor,constant: -50).isActive = true
+//             imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -150).isActive = true
          }
      }
-     
-     // offsetXの値を更新することページを移動
+
+    
+    
+    
+    
+    
+    
+    
+    //
+//     // offsetXの値を更新することページを移動
      @objc func scrollPage() {
          // 画面の幅分offsetXを移動
          self.offsetX += self.view.frame.size.width

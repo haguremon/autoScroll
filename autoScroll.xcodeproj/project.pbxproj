@@ -13,6 +13,7 @@
 		CF2891B927018E9D00FEC85A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF2891B727018E9D00FEC85A /* Main.storyboard */; };
 		CF2891BB27018E9F00FEC85A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF2891BA27018E9F00FEC85A /* Assets.xcassets */; };
 		CF2891BE27018E9F00FEC85A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF2891BC27018E9F00FEC85A /* LaunchScreen.storyboard */; };
+		CF4706EA2707397900F7B941 /* extensionUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4706E92707397900F7B941 /* extensionUIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		CF2891BA27018E9F00FEC85A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF2891BD27018E9F00FEC85A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF2891BF27018E9F00FEC85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF4706E92707397900F7B941 /* extensionUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensionUIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				CF2891B127018E9D00FEC85A /* AppDelegate.swift */,
 				CF2891B327018E9D00FEC85A /* SceneDelegate.swift */,
 				CF2891B527018E9D00FEC85A /* ViewController.swift */,
+				CF4706E92707397900F7B941 /* extensionUIView.swift */,
 				CF2891B727018E9D00FEC85A /* Main.storyboard */,
 				CF2891BA27018E9F00FEC85A /* Assets.xcassets */,
 				CF2891BC27018E9F00FEC85A /* LaunchScreen.storyboard */,
@@ -140,6 +143,7 @@
 			files = (
 				CF2891B627018E9D00FEC85A /* ViewController.swift in Sources */,
 				CF2891B227018E9D00FEC85A /* AppDelegate.swift in Sources */,
+				CF4706EA2707397900F7B941 /* extensionUIView.swift in Sources */,
 				CF2891B427018E9D00FEC85A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
